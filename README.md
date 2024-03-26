@@ -1,5 +1,6 @@
 # C-practice  / Prática em C
 Exercises to practice in C. The code itself will be all in portuguese since it's for my college.
+
 Exercícios para praticar em C.
 
 ## Exercises / Exercicios:
