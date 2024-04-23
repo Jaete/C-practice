@@ -3,26 +3,29 @@
 #include <locale.h>
 #include <time.h>
 
-//Arquivo de gerenciamento e persistência de dados
+//Arquivo de gerenciamento e persistÃªncia de dados
 FILE *registroVendas;
 
-//Variável de escolha para navegação no menu
+//VariÃ¡vel de escolha para navegaÃ§Ã£o no menu
 int escolha = 0;
 
-// Preço da quentinha e preço por kg
+// PreÃ§o da quentinha e preÃ§o por kg
 enum PrecoRefeicao{
-	QUILO = 30, // Não foi explicitado nas especificações
-	// do projeto o preço do KG da refeição, valor aleatório
+	QUILO = 30, // NÃ£o foi explicitado nas especificaÃ§Ãµes
+	// do projeto o preÃ§o do KG da refeiÃ§Ã£o, valor aleatÃ³rio
 	QUENTINHA = 20
 } refeicao;
 
-//Preço das bebidas
+char ab[3] = "ab";
+char rb[3] = "rb";
+
+//PreÃ§o das bebidas
 enum Bebidas{
 	COCA_LATA = 4, COCA_2L = 10,
 	PEPSI_LATA = 3, PEPSI_2L = 8
 } bebida;
 
-//Meses do ano para Relatório Mensal
+//Meses do ano para RelatÃ³rio Mensal
 enum Meses{
 	JANEIRO = 1, FEVEREIRO,
 	MARCO, ABRIL,
@@ -32,7 +35,7 @@ enum Meses{
 	NOVEMBRO, DEZEMBRO
 } meses;
 
-//struct de informação para cada venda realizada
+//struct de informaÃ§Ã£o para cada venda realizada
 struct Vendas{
 	char tipo[16]; // "a quilo" ou "quentinha"
 	int peso;
@@ -41,18 +44,18 @@ struct Vendas{
 };
 
 
-//Funções ajudantes para reutilização de código
+//FunÃ§Ãµes ajudantes para reutilizaÃ§Ã£o de cÃ³digo
 void printVenda(int i, struct Vendas venda){
 	printf("\n\n***** [%d] *****\n", i);
 	printf("Tipo: %s\n", venda.tipo);
 	printf("Peso: %d\n", venda.peso);
 	printf("Qtd. Bebidas: %d\n", venda.qtdBebidas);
-	printf("Preço: %.2f\n", venda.precoFinal);
+	printf("PreÃ§o: %.2f\n", venda.precoFinal);
 }
 
 void repetirEscolha(){
 	fflush(stdin);
-	printf("Insira um valor válido.\n");
+	printf("Insira um valor vÃ¡lido.\n");
 	fscanf(stdin, "%d", &escolha);
 }
 
@@ -93,7 +96,7 @@ void printDiaMes(int dia, int mes){
 			printf("\n\n****** [%d / FEVEREIRO] ******\n\n", dia);
 			break;
 		case MARCO:
-			printf("\n\n****** [%d / MARÇO] ******\n\n", dia);
+			printf("\n\n****** [%d / MARÃ‡O] ******\n\n", dia);
 			break;
 		case ABRIL:
 			printf("\n\n****** [%d / ABRIL] ******\n\n", dia);
@@ -125,18 +128,18 @@ void printDiaMes(int dia, int mes){
 	}
 }
 
-//Calculando o preço por peso, com o peso em gramas, fazendo a
-//conversão para quilos
+//Calculando o preÃ§o por peso, com o peso em gramas, fazendo a
+//conversÃ£o para quilos
 float calcularPrecoPorPeso(int peso){
 	return QUILO * (peso * 0.001);
 }
 
-//Adicionando os 50 centavos da embalagem ao preço fixo da quentinha
+//Adicionando os 50 centavos da embalagem ao preÃ§o fixo da quentinha
 float quentinha(){
 	return QUENTINHA + 0.5;
 }
 
-//Adicionando bebida a partir da escolha feita no input, pré validado
+//Adicionando bebida a partir da escolha feita no input, prÃ© validado
 int adicionarBebida(int bebida, int quantidade){
 	switch(bebida){
 		case 1:
@@ -156,91 +159,49 @@ int adicionarBebida(int bebida, int quantidade){
 	}
 }
 
-//Checando qual mês é a partir do input recebido, pré validado, para uso de escrita
-void registrarMes(int mes){
+//Checando qual mÃªs Ã© a partir do input recebido, prÃ© validado, para uso de escrita
+void registrarMes(int mes, char *modo){
 	switch(mes){
 		case JANEIRO:
-			registroVendas = fopen("registroVendasJaneiro", "ab");
+			registroVendas = fopen("registroVendasJaneiro", modo);
 			break;
 		case FEVEREIRO:
-			registroVendas = fopen("registroVendasFevereiro", "ab");
+			registroVendas = fopen("registroVendasFevereiro", modo);
 			break;
 		case MARCO:
-			registroVendas = fopen("registroVendasMarco", "ab");
+			registroVendas = fopen("registroVendasMarco", modo);
 			break;
 		case ABRIL:
-			registroVendas = fopen("registroVendasAbril", "ab");
+			registroVendas = fopen("registroVendasAbril", modo);
 			break;
 		case MAIO:
-			registroVendas = fopen("registroVendasMaio", "ab");
+			registroVendas = fopen("registroVendasMaio", modo);
 			break;
 		case JUNHO:
-			registroVendas = fopen("registroVendasJunho", "ab");
+			registroVendas = fopen("registroVendasJunho", modo);
 			break;
 		case JULHO:
-			registroVendas = fopen("registroVendasJulho", "ab");
+			registroVendas = fopen("registroVendasJulho", modo);
 			break;
 		case AGOSTO:
-			registroVendas = fopen("registroVendasAgosto", "ab");
+			registroVendas = fopen("registroVendasAgosto", modo);
 			break;
 		case SETEMBRO:
-			registroVendas = fopen("registroVendasSetembro", "ab");
+			registroVendas = fopen("registroVendasSetembro", modo);
 			break;
 		case OUTUBRO:
-			registroVendas = fopen("registroVendasOutubro", "ab");
+			registroVendas = fopen("registroVendasOutubro", modo);
 			break;
 		case NOVEMBRO:
-			registroVendas = fopen("registroVendasNovembro", "ab");
+			registroVendas = fopen("registroVendasNovembro", modo);
 			break;
 		case DEZEMBRO:
-			registroVendas = fopen("registroVendasDezembro", "ab");
+			registroVendas = fopen("registroVendasDezembro", modo);
 			break;
 	}
 }
 
-//Checando qual mês é a partir do input recebido, pré validado, para uso de leitura
-void analisarMes(int mes){
-	switch(mes){
-		case JANEIRO:
-			registroVendas = fopen("registroVendasJaneiro", "rb");
-			break;
-		case FEVEREIRO:
-			registroVendas = fopen("registroVendasFevereiro", "rb");
-			break;
-		case MARCO:
-			registroVendas = fopen("registroVendasMarco", "rb");
-			break;
-		case ABRIL:
-			registroVendas = fopen("registroVendasAbril", "rb");
-			break;
-		case MAIO:
-			registroVendas = fopen("registroVendasMaio", "rb");
-			break;
-		case JUNHO:
-			registroVendas = fopen("registroVendasJunho", "rb");
-			break;
-		case JULHO:
-			registroVendas = fopen("registroVendasJulho", "rb");
-			break;
-		case AGOSTO:
-			registroVendas = fopen("registroVendasAgosto", "rb");
-			break;
-		case SETEMBRO:
-			registroVendas = fopen("registroVendasSetembro", "rb");
-			break;
-		case OUTUBRO:
-			registroVendas = fopen("registroVendasOutubro", "rb");
-			break;
-		case NOVEMBRO:
-			registroVendas = fopen("registroVendasNovembro", "rb");
-			break;
-		case DEZEMBRO:
-			registroVendas = fopen("registroVendasDezembro", "rb");
-			break;
-	}
-}
-
-//Checando qual mês é a partir do input recebido, pré validado, para uso de print na tela
+//Checando qual mÃªs Ã© a partir do input recebido, prÃ© validado, para uso de print na tela
 char *stringMes(int mes){
 	switch(mes){
 			case JANEIRO:
@@ -248,7 +209,7 @@ char *stringMes(int mes){
 			case FEVEREIRO:
 				return "[FEVEREIRO]";
 			case MARCO:
-				return "[MARÇO]";
+				return "[MARÃ‡O]";
 			case ABRIL:
 				return "[ABRIL]";
 			case MAIO:
@@ -270,18 +231,18 @@ char *stringMes(int mes){
 		}
 }
 
-//Adicionando uma venda de refeição manualmente, com o programa presumindo
-//que é a refeição à quilo.
+//Adicionando uma venda de refeiÃ§Ã£o manualmente, com o programa presumindo
+//que Ã© a refeiÃ§Ã£o Ã  quilo.
 void vendaRefeicaoManual(){
 	struct Vendas venda;
 	strcpy(venda.tipo, "A quilo");
-	printf("Digite o peso em gramas da refeição vendida: ");
+	printf("Digite o peso em gramas da refeiÃ§Ã£o vendida: ");
 	fflush(stdin);
 	fscanf(stdin, "%d", &venda.peso);
 	float preco = calcularPrecoPorPeso(venda.peso);
-	printf("\n\nO preço por %d gramas é %.2f", venda.peso, preco);
+	printf("\n\nO preÃ§o por %d gramas Ã© %.2f", venda.peso, preco);
 	printf("\n\nHouve bebida nessa venda?\n");
-	printf("1- Sim\t2- Não\n");
+	printf("1- Sim\t2- NÃ£o\n");
 	fflush(stdin);
 	fscanf(stdin, "%d", &escolha);
 	validarEscolha(2);
@@ -290,41 +251,42 @@ void vendaRefeicaoManual(){
 		fflush(stdin);
 		fscanf(stdin, "%d", &escolha);
 		validarEscolha(4);
-		printf("E quantas bebidas vão ser?\n");
+		printf("E quantas bebidas vÃ£o ser?\n");
 		fflush(stdin);
 		fscanf(stdin, "%d", &venda.qtdBebidas);
 		if(venda.qtdBebidas != 0){
 			preco = preco + adicionarBebida(escolha, venda.qtdBebidas);
 		}
 		venda.precoFinal = preco;
-		printf("\nO preço final da refeição com bebidas é de: %.2f", venda.precoFinal);
+		printf("\nO preÃ§o final da refeiÃ§Ã£o com bebidas Ã© de: %.2f", venda.precoFinal);
 	}else{
 		venda.precoFinal = preco;
-		printf("\nO preço final da refeição é de: %.2f", venda.precoFinal);
+		printf("\nO preÃ§o final da refeiÃ§Ã£o Ã© de: %.2f", venda.precoFinal);
 	}
 	printf("\n\nE quando foi feita essa venda?\n");
-	printf("Inserir o mês de venda.\n");
+	printf("Inserir o mÃªs de venda.\n");
 	printf("Exemplo:\nJaneiro -> 1\nFevereiro -> 2\n");
 	fscanf(stdin, "%d", &meses);
-	registrarMes(meses);
+	int operacao = 1;
+	registrarMes(meses, ab);
 	printf("\nTipo: %s\n", venda.tipo);
 	printf("Peso: %d\n", venda.peso);
 	printf("Qtd. Bebidas: %d\n", venda.qtdBebidas);
-	printf("Preço: %.2f\n", venda.precoFinal);
+	printf("PreÃ§o: %.2f\n", venda.precoFinal);
 	fwrite(&venda, sizeof(venda), 1, registroVendas);
 	fclose(registroVendas);
 	printf("Venda registrada!\n");
 }
 
-//Adicionando uma venda de refeição manualmente, com o programa presumindo
-//que é a quentinha.
+//Adicionando uma venda de refeiÃ§Ã£o manualmente, com o programa presumindo
+//que Ã© a quentinha.
 void vendaQuentinhaManual(){
 	struct Vendas venda;
 	strcpy(venda.tipo, "Quentinha");
 	venda.peso = 600;
 	venda.precoFinal = quentinha();
 	printf("\n\nHouve bebida nessa venda?\n");
-	printf("1- Sim\t2- Não\n");
+	printf("1- Sim\t2- NÃ£o\n");
 	fscanf(stdin, "%d", &escolha);
 	validarEscolha(2);
 	if(escolha != 2){
@@ -332,29 +294,29 @@ void vendaQuentinhaManual(){
 		fflush(stdin);
 		fscanf(stdin, "%d", &escolha);
 		validarEscolha(4);
-		printf("\nE quantas bebidas vão ser?\n");
+		printf("\nE quantas bebidas vÃ£o ser?\n");
 		fflush(stdin);
 		fscanf(stdin, "%d", &venda.qtdBebidas);
 		venda.precoFinal += adicionarBebida(escolha, venda.qtdBebidas);
-		printf("\nO preço final da quentinha com bebidas é de: %.2f", venda.precoFinal);
+		printf("\nO preÃ§o final da quentinha com bebidas Ã© de: %.2f", venda.precoFinal);
 	}else{
-		printf("\nO preço final da quentinha é de: %.2f", venda.precoFinal);
+		printf("\nO preÃ§o final da quentinha Ã© de: %.2f", venda.precoFinal);
 	}
 	printf("\n\nE quando foi feita essa venda?\n");
-	printf("Inserir o mês de venda.\n");
+	printf("Inserir o mÃªs de venda.\n");
 	printf("Exemplo:\nJaneiro -> 1\nFevereiro -> 2\n");
 	fscanf(stdin, "%d", &meses);
-	registrarMes(meses);
+	registrarMes(meses, ab);
 	printf("\nTipo: %s\n", venda.tipo);
 	printf("Peso: %d\n", venda.peso);
 	printf("Qtd. Bebidas: %d\n", venda.qtdBebidas);
-	printf("Preço: %.2f\n", venda.precoFinal);
+	printf("PreÃ§o: %.2f\n", venda.precoFinal);
 	fwrite(&venda, sizeof(venda), 1, registroVendas);
 	fclose(registroVendas);
 	printf("Venda registrada!\n");
 }
 
-//Preenchendo as 100 vendas diárias aleatoriamente
+//Preenchendo as 100 vendas diÃ¡rias aleatoriamente
 void vendasDiaria(){
 	struct Vendas venda;
 	int random;
@@ -365,8 +327,8 @@ void vendasDiaria(){
 		if(random == 0){
 			//A quilo
 			strcpy(venda.tipo, "A quilo");
-			venda.peso = rand()%(900 + 1 - 300) + 300; // Peso aleatório entre 300 e 900 gramas
-			venda.qtdBebidas = rand()%(2 + 1 - 0) + 0; // Quantidade aleatória de bebidas entre 0 e 2
+			venda.peso = rand()%(900 + 1 - 300) + 300; // Peso aleatÃ³rio entre 300 e 900 gramas
+			venda.qtdBebidas = rand()%(2 + 1 - 0) + 0; // Quantidade aleatÃ³ria de bebidas entre 0 e 2
 			venda.precoFinal = calcularPrecoPorPeso(venda.peso);
 			if(venda.qtdBebidas != 0){
 				// Se houver bebida
@@ -377,9 +339,9 @@ void vendasDiaria(){
 		}else{
 			//Quentinha
 			strcpy(venda.tipo, "Quentinha");
-			venda.peso = 600; //Peso padrão da quentinha
-			venda.qtdBebidas = rand()%(2 + 1 - 0) + 0; // Quantidade aleatória de bebidas entre 0 e 2
-			venda.precoFinal = quentinha(); // Preço padrão da quentinha
+			venda.peso = 600; //Peso padrÃ£o da quentinha
+			venda.qtdBebidas = rand()%(2 + 1 - 0) + 0; // Quantidade aleatÃ³ria de bebidas entre 0 e 2
+			venda.precoFinal = quentinha(); // PreÃ§o padrÃ£o da quentinha
 			if(venda.qtdBebidas != 0){
 				//Se houver bebida
 				int bebida = rand()%(4 + 1 - 1) + 1; // Qual das bebidas, aleatorio
@@ -393,46 +355,46 @@ void vendasDiaria(){
 //Preenchendo os dados equivalentes a 1 ano de vendas
 void preencherDados(){
 	int mes;
-	//Loop para cada mês
+	//Loop para cada mÃªs
 	for(mes = JANEIRO; mes <= DEZEMBRO; mes++){
 		int dia;
-		//Abre um novo arquivo binário para cada mês
-		registrarMes(mes);
-		if(mes == FEVEREIRO){ // Se mês fevereiro, loop dos dias tem apenas 28 iterações
+		//Abre um novo arquivo binÃ¡rio para cada mÃªs
+		registrarMes(mes, ab);
+		if(mes == FEVEREIRO){ // Se mÃªs fevereiro, loop dos dias tem apenas 28 iteraÃ§Ãµes
 			for(dia = 1; dia <= 28; dia++){
 				vendasDiaria();
 			}
 		}else{
-			//Se mês não é fevereiro, loop dos dias tem 30 iterações, sendo o "mês comercial"
+			//Se mÃªs nÃ£o Ã© fevereiro, loop dos dias tem 30 iteraÃ§Ãµes, sendo o "mÃªs comercial"
 			for(dia = 1; dia <= 30; dia++){
 				vendasDiaria();
 			}	
 		}
 		fclose(registroVendas);
 	}
-	if(registroVendas != NULL){ // Checa se por ventura o arquivo não está ainda aberto
+	if(registroVendas != NULL){ // Checa se por ventura o arquivo nÃ£o estÃ¡ ainda aberto
 		fclose(registroVendas); // e fecha se estiver
 	}
 	printf("\n\n**** Vendas geradas com sucesso! ****\n\n");
 }
 
-// Relatório diário, onde pode-se escolher o mês e o dia para ver os valores.
+// RelatÃ³rio diÃ¡rio, onde pode-se escolher o mÃªs e o dia para ver os valores.
 void relatorioDiario(){
 	struct Vendas venda;
 	int mes, dia, i;
 	int quentinha = 0;
 	int quilo = 0;
 	float faturamentoDiario, pesoVendido;
-	printf("Insira o número equivalente ao mês que deseja consultar.\n");
+	printf("Insira o nÃºmero equivalente ao mÃªs que deseja consultar.\n");
 	printf("Exemplo:\n Janeiro -> 1\n");
 	printf("Fevereiro -> 2\n");
 	fflush(stdin);
 	fscanf(stdin, "%d", &mes);
-	analisarMes(mes); // abrindo o arquivo de leitura do mês solicitado
-	printf("Insira o valor do dia do mês.\n");
+	registrarMes(mes, rb); // abrindo o arquivo de leitura do mÃªs solicitado
+	printf("Insira o valor do dia do mÃªs.\n");
 	fflush(stdin);
 	fscanf(stdin, "%d", &dia);
-	fseek(registroVendas, sizeof(venda) * (dia - 1) * 100, SEEK_SET); //movendo o ponteiro para o dia específico
+	fseek(registroVendas, sizeof(venda) * (dia - 1) * 100, SEEK_SET); //movendo o ponteiro para o dia especÃ­fico
 	printDiaMes(dia, mes);
 	for(i = 1; i <= 100; i++){
 		fread(&venda, sizeof(venda), 1, registroVendas);
@@ -442,19 +404,19 @@ void relatorioDiario(){
 		if(strcmp(venda.tipo, "Quentinha")){
 			quentinha++;
 		}
-		faturamentoDiario += venda.precoFinal; // adicionando ao faturamento diário
-		pesoVendido += venda.peso; // adicionando ao peso vendido diário
+		faturamentoDiario += venda.precoFinal; // adicionando ao faturamento diÃ¡rio
+		pesoVendido += venda.peso; // adicionando ao peso vendido diÃ¡rio
 	}
 	pesoVendido = (pesoVendido * 0.001); // convertendo para kg
 	//mostrando o faturamento total do dia
 	printf("****** Faturamento do dia ******\n");
 	printf("Quentinhas vendidas: %d\n", quentinha);
-	printf("Refeições a quilo vendidas: %d\n", quilo);
+	printf("RefeiÃ§Ãµes a quilo vendidas: %d\n", quilo);
 	printf("Total de peso de comida vendido: %.2fkg\n", pesoVendido);
 	printf("Total de faturamento: R$%.2f", faturamentoDiario);
 }
 
-// Realizando o relatório mensal
+// Realizando o relatÃ³rio mensal
 void relatorioMensal(){
 	struct Vendas vendaAtual;
 	int mes;
@@ -463,10 +425,10 @@ void relatorioMensal(){
 	float faturamentoMensal[DEZEMBRO];
 	float pesoVendido;
 	char string[25];
-	// Loop para cada mês
+	// Loop para cada mÃªs
 	printf("\n\n****** Faturamento Mensal ******\n\n");
 	for(mes = JANEIRO; mes <= DEZEMBRO; mes++){
-		analisarMes(mes);
+		registrarMes(mes, rb);
 		while(fread(&vendaAtual, sizeof(vendaAtual), 1, registroVendas)){
 			if(strcmp(vendaAtual.tipo, "A quilo")){
 				quilo++;
@@ -480,7 +442,7 @@ void relatorioMensal(){
 		strcpy(string, stringMes(mes));
 		printf("**** %s ****\n", string);
 		printf("Quentinhas vendidas: %d\n", quentinha);
-		printf("Refeições a quilo vendidas: %d\n", quilo);
+		printf("RefeiÃ§Ãµes a quilo vendidas: %d\n", quilo);
 		printf("Total de peso de comida vendido: %.2fkg\n", pesoVendido * 0.001);
 		printf("\nFaturamento: R$%.2f\n\n", faturamentoMensal[mes - 1]);
 		fclose(registroVendas);
@@ -496,7 +458,7 @@ void compararVendas(){
 	int mes, i;
 	int meses[DEZEMBRO];
 	for(mes = JANEIRO; mes <= DEZEMBRO; mes++){
-		analisarMes(mes);
+		registrarMes(mes, rb);
 		while(fread(&vendaAtual, sizeof(vendaAtual), 1, registroVendas)){
 			faturamentoMensal[mes - 1] += vendaAtual.precoFinal;
 		}
@@ -508,11 +470,11 @@ void compararVendas(){
 		int j; // iterador do loop interno
 		for(j = i; j < DEZEMBRO; j++){
 			if(faturamentoMensal[i] < faturamentoMensal[j]){
-				//Reordenando o faturamento do mês
+				//Reordenando o faturamento do mÃªs
 				mem = faturamentoMensal[j];
 				faturamentoMensal[j] = faturamentoMensal[i];
 				faturamentoMensal[i] = mem;
-				//Reordenando o mês em si
+				//Reordenando o mÃªs em si
 				memMeses = meses[j];
 				meses[j] = meses[i];
 				meses[i] = memMeses;
@@ -526,10 +488,10 @@ void compararVendas(){
 		printf("**** %s ****", string);
 		printf("\nFaturamento: R$%.2f\n\n", faturamentoMensal[l]);
 	}
-	printf("\n\n**** Mês com maior faturamento ****\n");
+	printf("\n\n**** MÃªs com maior faturamento ****\n");
 	strcpy(string, stringMes(meses[0]));
 	printf("%s\n\n", string);
-	printf("**** Mês com menor faturamento ****\n");
+	printf("**** MÃªs com menor faturamento ****\n");
 	strcpy(string, stringMes(meses[11]));
 	printf("%s\n\n", string);
 }
@@ -545,7 +507,7 @@ int main(){
 		printf("3- Gerar 1 ano de vendas automaticamente.\n");
 		printf("4- Relatorio diario.\n");
 		printf("5- Relatorio mensal.\n");
-		printf("6- Mês com maior faturamento.\n");
+		printf("6- MÃªs com maior faturamento.\n");
 		printf("7- Sair\n\n");
 		fflush(stdin);
 		fscanf(stdin, "%d", &escolha);
@@ -572,7 +534,7 @@ int main(){
 				printf("\n\n***** Obrigado! *****\n");
 				return 0;
 			default:
-				printf("Insira um valor válido.\n");
+				printf("Insira um valor vÃ¡lido.\n");
 				break;
 		}
 	}while(escolha != 7);
