@@ -4,24 +4,6 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-/*
-	Reutilizei o trabalho da aula 7 onde
-	tem aquele CRUD completo dos livros
-	
-	O método de busca binário não fazia muito
-	sentido para pesquisar por livros (mais de um)
-	filtrados pelo autor ou por quantia de páginas
-	
-	Então foi criada uma pesquisa de um único livro
-	filtrado pelo nome (precisa match exato da busca)
-	
-	Criei uma opção a mais no menu para
-	ordenação dos livros, tanto por
-	nome quanto por quantia de páginas
-	(A partir da linha 71)
-*/
-
-
 FILE *file;
 int choice = 0;
 int binarySearchBounds = 0;
@@ -48,9 +30,9 @@ void header(char *text){
 /* Auxiliar para imprimir livro */
 void printBook(int id, struct Book book){
 	printf("\n*** [%d] ***\n", id);
-	printf("Título: %s\n", book.title);
+	printf("TÃ­tulo: %s\n", book.title);
 	printf("Autor: %s\n", book.author);
-	printf("Páginas: %d\n\n", book.pages);	
+	printf("PÃ¡ginas: %d\n\n", book.pages);	
 }
 
 /*
@@ -69,8 +51,8 @@ int getListSize(struct Book tmp){
 	
 }
 
-/*Função para ordenar os livros por página
-  Ou ordem alfabética
+/*FunÃ§Ã£o para ordenar os livros por pÃ¡gina
+  Ou ordem alfabÃ©tica
 */
 void orderBy(int option){
 	struct Book tmp;
@@ -100,7 +82,7 @@ void orderBy(int option){
 			}
 			break;
 		case PAGES:
-			/*Bubble sort comparando páginas*/
+			/*Bubble sort comparando pÃ¡ginas*/
 			for (i = 0; i < size; i++){
 		    	for(j = i + 1; j < size; j++){
 		    		if(books[i].pages < books[j].pages){
@@ -126,13 +108,13 @@ void inscribe(){
 	struct Book book;
 	printf("\n");
 	header("Cadastrar");
-	printf("Qual é o nome do livro?\n");
+	printf("Qual Ã© o nome do livro?\n");
 	fflush(stdin);
 	scanf("%[^\n]", book.title);
-	printf("E qual(quais) é(são) o(s) autor(es) de '%s'\n", book.title);
+	printf("E qual(quais) Ã©(sÃ£o) o(s) autor(es) de '%s'\n", book.title);
 	fflush(stdin);
 	scanf("%[^\n]", book.author);
-	printf("E quantas páginas tem '%s'\n", book.title);
+	printf("E quantas pÃ¡ginas tem '%s'\n", book.title);
 	fflush(stdin);
 	scanf("%d", &book.pages);
 	file = fopen("bookList.txt", "ab");
@@ -153,7 +135,7 @@ void seeAll(){
 	}
 	fclose(file);
 	if(booksFound == 0){
-		printf("Não encontramos nenhum livro.\n\n");
+		printf("NÃ£o encontramos nenhum livro.\n\n");
 	}
 }
 
@@ -162,18 +144,18 @@ void selectFromAll(char *context){
 	header(context);
 	printf("Dentre os livros: \n");
 	seeAll();
-	printf("O índice do livro está acima das informações, ex: *** [1] ***\n");
-	printf("Este é o livro de índice 1.\n");
-	printf("\n\nInforme um valor, indicando seu índice.\n");
+	printf("O Ã­ndice do livro estÃ¡ acima das informaÃ§Ãµes, ex: *** [1] ***\n");
+	printf("Este Ã© o livro de Ã­ndice 1.\n");
+	printf("\n\nInforme um valor, indicando seu Ã­ndice.\n");
 }
 
 /* Funcao para ver o livro por nome
-   Feito com busca binária
+   Feito com busca binÃ¡ria
  */
  
 void byName(char *search, FILE *file, int e, int size){
 	if(binarySearchBounds > size){
-		printf("\n\nNão foi encontrado nenhum livro.\n\n");
+		printf("\n\nNÃ£o foi encontrado nenhum livro.\n\n");
 		main(); /* De volta ao menu*/
 	}
 	struct Book book;
@@ -188,7 +170,7 @@ void byName(char *search, FILE *file, int e, int size){
 	if(str_cmp_result == 0){
 		fclose(file);
 		printBook(1, book);
-		main(); /* Por algum motivo quando termina essa função não queria voltar ao menu */
+		main(); /* Por algum motivo quando termina essa funÃ§Ã£o nÃ£o queria voltar ao menu */
 	}else if(str_cmp_result < 0){
 		binarySearchBounds++; /* Incremena um contador para o limite de busca ser 
 								Igual ao tamanho do arquivo*/
@@ -220,7 +202,7 @@ void byAuthor(){
 		}
 	}
 	if(booksFound == 0){
-		printf("Não encontramos nenhum livro com estes critérios.\n\n");
+		printf("NÃ£o encontramos nenhum livro com estes critÃ©rios.\n\n");
 	}
 	fclose(file);
 }
@@ -229,7 +211,7 @@ void byAuthor(){
 void byPages(){
 	struct Book book;
 	int search, size;
-	printf("Vamos procurar pela quantidade de páginas. \n");
+	printf("Vamos procurar pela quantidade de pÃ¡ginas. \n");
 	printf("\nInsira a quantidade: ");
 	fflush(stdin);
 	scanf("%d", &search);
@@ -244,7 +226,7 @@ void byPages(){
 		}
 	}
 	if(booksFound == 0){
-		printf("Não encontramos nenhum livro com estes critérios.\n\n");
+		printf("NÃ£o encontramos nenhum livro com estes critÃ©rios.\n\n");
 	}
 	fclose(file);
 }
@@ -252,8 +234,8 @@ void byPages(){
 /* Submenu para escolha do tipo de busca */
 void search(){
 	header("Procurar");
-	printf("Você deseja filtrar por: \n");
-	printf("1- Qtd. Páginas\t\t2-Autor(es)\t3- Nome do livro\n");
+	printf("VocÃª deseja filtrar por: \n");
+	printf("1- Qtd. PÃ¡ginas\t\t2-Autor(es)\t3- Nome do livro\n");
 	fflush(stdin);
 	do{
 		scanf("%d", &choice);
@@ -274,7 +256,7 @@ void search(){
 			byName(title, file, 0, size - 1);
 			break;
 		default: 
-			printf("\nInsira um valor válido.\n");
+			printf("\nInsira um valor vÃ¡lido.\n");
 			break;
 		}
 	}while(choice != 1 && choice != 2);
@@ -297,7 +279,7 @@ void edit(){
 	printf("Qual o novo autor de '%s'?\n", book.title);
 	fflush(stdin);
 	scanf("%[^\n]", book.author);
-	printf("Quantas páginas tem '%s'?\n", book.title);
+	printf("Quantas pÃ¡ginas tem '%s'?\n", book.title);
 	fflush(stdin);
 	scanf("%d", &book.pages);
 	fseek(file, sizeof(book)*(i-1), SEEK_SET);
@@ -340,7 +322,7 @@ void erase(){
 /* Funcao para ordenar os livros */
 void order(){
 	printf("Deseja ordenar por:\n");
-	printf("1- Alfabética\t2- Qtd. Páginas\n");
+	printf("1- AlfabÃ©tica\t2- Qtd. PÃ¡ginas\n");
 	fflush(stdin);
 	scanf("%d", &choice);
 	if(choice == 1){
@@ -355,7 +337,7 @@ int main(){
 	setlocale(LC_ALL, "Portuguese");
 	do{
 		header("Minha Biblioteca");
-		printf("\nBem vindo à biblioteca.\n");
+		printf("\nBem vindo Ã  biblioteca.\n");
 		printf("O que deseja fazer?\n\n");
 		printf("1- Cadastrar um livro.\n");
 		printf("2- Ver todos os livros.\n");
@@ -396,7 +378,7 @@ int main(){
 				exit(0);
 				break;
 			default:
-				printf("Insira um valor válido.\n\n");
+				printf("Insira um valor vÃ¡lido.\n\n");
 				break;					
 		}
 	}while(choice != 7);
